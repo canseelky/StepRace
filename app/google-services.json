@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "347633616261",
+    "project_id": "steprace-c2005",
+    "storage_bucket": "steprace-c2005.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:347633616261:android:e8b40fcca4a236d325b0ec",
+        "android_client_info": {
+          "package_name": "tr.edu.msku.steprace"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "347633616261-84n7gd5mmcb3hck2hqla5durnsu3merc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAj_6mT86nEqn4kgZIam5vkZ4Gj_fOZZgk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "347633616261-84n7gd5mmcb3hck2hqla5durnsu3merc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

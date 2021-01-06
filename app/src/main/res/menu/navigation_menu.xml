@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/HomeMenu"
+        android:checkable="false"
+        android:enabled="true"
+
+        android:icon="@drawable/home222"
+        android:title="Home"
+        android:visible="true" />
+
+
+    <item
+        android:id="@+id/FriendsMenu"
+        android:icon="@drawable/friends"
+        android:title="Friends"
+        android:visible="true" />
+    <item
+        android:id="@+id/NotificationsMenu"
+        android:icon="@drawable/notification"
+        android:title="Notifications"
+        android:visible="true" />
+    <item
+        android:id="@+id/SearchMenu"
+        android:icon="@drawable/search"
+        android:title="Search" />
+    <item
+        android:id="@+id/SettingsMenu"
+        android:icon="@drawable/settings"
+        android:title="Settings" />
+</menu>
