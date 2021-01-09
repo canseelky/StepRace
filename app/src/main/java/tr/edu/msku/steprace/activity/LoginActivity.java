@@ -1,4 +1,4 @@
-package tr.edu.msku.steprace.activities;
+package tr.edu.msku.steprace.activity;
 
 import android.content.Intent;
 import android.os.Bundle;

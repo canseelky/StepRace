@@ -9,12 +9,18 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.FirebaseAppLifecycleListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
-import tr.edu.msku.steprace.activities.LoginActivity;
-import tr.edu.msku.steprace.activities.RegisterActivity;
-import tr.edu.msku.steprace.fragments.HomeFragment;
+import tr.edu.msku.steprace.activity.LoginActivity;
+import tr.edu.msku.steprace.fragment.Friends;
+import tr.edu.msku.steprace.fragment.HomeFragment;
+import tr.edu.msku.steprace.fragment.SearchResult;
+import tr.edu.msku.steprace.fragment.Settings;
 import tr.edu.msku.steprace.service.BackgroundService;
 
 public class MainActivity extends AppCompatActivity {
@@ -23,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     BottomNavigationView navigationView;
     FragmentManager mFragmentManager = getSupportFragmentManager();
     FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseAuth.AuthStateListener mAuthStateListener;
 
 
     @Override
@@ -30,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //always start with homefragment
-        changeFragment(new HomeFragment());
+        //changeFragment(new HomeFragment());
 
             navigationView = findViewById(R.id.bottom_navigation);
 
@@ -40,21 +48,45 @@ public class MainActivity extends AppCompatActivity {
                     switch (item.getItemId()) {
                         case R.id.HomeMenu:
                             changeFragment(new HomeFragment());
+                            break;
                         case R.id.FriendsMenu:
-                            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                            MainActivity.this.startActivity(intent);
+                            changeFragment(new Friends());
                             break;
 
                         case R.id.SearchMenu:
-                            Intent intent2 = new Intent(MainActivity.this, RegisterActivity.class);
-                            MainActivity.this.startActivity(intent2);
+                          changeFragment(new SearchResult());
                             break;
-
+                        case R.id.SettingsMenu:
+                            changeFragment(new Settings());
+                            break;
                     }
                     return true;
 
                 }
             });
+
+            mFirebaseAuth = FirebaseAuth.getInstance();
+            mAuthStateListener = new FirebaseAuth.AuthStateListener() {
+                @Override
+                public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+
+                    FirebaseUser user = firebaseAuth.getCurrentUser();
+                    if (user == null){
+                        Toast.makeText(MainActivity.this,"Enter e-mail address and password ! ",Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+                        startActivity(intent);
+
+
+                    }
+                    else{
+                        Toast.makeText(MainActivity.this,"You are already logged in",Toast.LENGTH_SHORT).show();
+
+                    }
+
+
+
+                }
+            };
 
 
 
@@ -67,6 +99,22 @@ public class MainActivity extends AppCompatActivity {
 
         super.onStart();
     }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mFirebaseAuth.addAuthStateListener(mAuthStateListener);
+
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mFirebaseAuth.removeAuthStateListener(mAuthStateListener);
+    }
+
     protected void startIntentService () {
         Intent intent = new Intent(this, BackgroundService.class);
         //intent.putExtra("numOfSteps", numOfSteps);
@@ -75,8 +123,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     protected  void changeFragment(Fragment fragment){
-        mFragmentTransaction.replace(R.id.container, fragment);
-        //mFragmentTransaction.addToBackStack("BackStack");
-        mFragmentTransaction.commit();
+        FragmentTransaction fts = getSupportFragmentManager().beginTransaction();
+        fts.replace(R.id.container, fragment);
+        fts.commit();
+
+
     }
 }
