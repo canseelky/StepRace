@@ -12,10 +12,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.List;
-import tr.edu.msku.steprace.adapter.FriendAdapter;
+
+import tr.edu.msku.steprace.adapter.FriendsAdapter;
 import tr.edu.msku.steprace.R;
 import tr.edu.msku.steprace.model.Friend;
-import tr.edu.msku.steprace.model.FriendStore;
 
 
 public class Friends extends Fragment {
@@ -27,7 +27,8 @@ public class Friends extends Fragment {
     private ChildEventListener mChildEventListener;
     private List<Friend> friends = new ArrayList<>();
     private  LinearLayoutManager layoutManager;
-    private FriendAdapter friendAdapter;
+    FriendsAdapter friendsAdapter;
+
 
 
     public Friends() {
@@ -66,8 +67,13 @@ public class Friends extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerView_friends);
         layoutManager = new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        friendAdapter = new FriendAdapter(friends);
-        recyclerView.setAdapter(friendAdapter);
+
+        friendsAdapter = new FriendsAdapter(friends);
+        FriendsAdapter adapter = new FriendsAdapter(friends);
+
+        //recyclerView.setAdapter(friendAdapter);
+        recyclerView.setAdapter(adapter);
+
         return view;
     }
 }

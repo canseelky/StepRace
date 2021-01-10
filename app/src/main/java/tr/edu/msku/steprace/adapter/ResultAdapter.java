@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.BreakIterator;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,6 +57,7 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ViewHolder
             @Override
             public void onClick(View v) {
                 SendFriendRequest.SendRequest(v.getContext(),position);
+                Log.d("User :",users.get(position).getName());
 
             }
         });
@@ -69,6 +71,7 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ViewHolder
     }
 
     public static class  ViewHolder extends RecyclerView.ViewHolder{
+
         private ImageView imageView;
         private TextView name;
         private TextView surname;

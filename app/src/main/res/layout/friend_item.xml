@@ -1,17 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="120dp"
+    android:baselineAligned="false">
+
+    <ImageView
+        android:id="@+id/profil_picture"
+        android:layout_width="119dp"
+        android:layout_height="108dp"
+        android:layout_weight="1"
+        tools:srcCompat="@drawable/user" />
 
     <TextView
         android:id="@+id/name22"
-        android:layout_width="146dp"
+        android:layout_width="123dp"
         android:layout_height="match_parent"
-        android:text="TextView" />
+        android:fontFamily="casual"
+        android:foregroundGravity="fill_horizontal|left|right|center_horizontal"
+        android:gravity="center"
+        android:rotationX="-15"
+        android:text="TextView"
+        android:textSize="18sp"
+        android:textStyle="italic" />
 
     <TextView
         android:id="@+id/surname22"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:layout_width="125dp"
+        android:layout_height="match_parent"
+        android:width="10dp"
+        android:fontFamily="casual"
+        android:gravity="center"
+        android:rotationX="-12"
+        android:text="TextView"
+        android:textSize="18sp"
+        android:textStyle="italic" />
 </LinearLayout>
