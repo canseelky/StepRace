@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //always start with homefragment
-        //changeFragment(new HomeFragment());
+        changeFragment(new HomeFragment());
 
             navigationView = findViewById(R.id.bottom_navigation);
 

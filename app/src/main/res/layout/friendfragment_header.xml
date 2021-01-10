@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/header"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:background="#D1D1D1">
+
+    <TextView
+        android:id="@+id/name_header"
+        android:layout_width="315dp"
+        android:layout_height="60dp"
+        android:layout_weight="1"
+        android:fontFamily="sans-serif-black"
+        android:gravity="center|right"
+        android:text="Name"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/steps_header"
+        android:layout_width="166dp"
+        android:layout_height="60dp"
+        android:layout_weight="1"
+        android:fontFamily="sans-serif-black"
+        android:gravity="center|center_horizontal"
+        android:text="Number of Steps"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textSize="14sp" />
+</LinearLayout>
