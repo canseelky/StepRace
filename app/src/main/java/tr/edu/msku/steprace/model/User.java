@@ -8,6 +8,7 @@ import java.util.List;
 public  class User {
     private String name;
     private String surname;
+    private String city;
     private String email;
     private Date dateOfBirth;
     private URL image;
@@ -16,15 +17,17 @@ public  class User {
     private List<Friend> friends;
 
 
-    public User(String name, String surname) {
+    public User(String name, String surname,String city) {
         this.name = name;
         this.surname = surname;
+        this.city =city;
 
     }
 
 
-    public User(String name, String surname, String email, Date dateOfBirth, URL image, int numOfSteps, Date date) {
+    public User(String name, String surname, String city,String email, Date dateOfBirth, URL image, int numOfSteps, Date date) {
         this.name = name;
+        this.city =city;
         this.surname = surname;
         this.email = email;
         this.dateOfBirth = dateOfBirth;
@@ -41,6 +44,7 @@ public  class User {
         this.name = name;
     }
 
+
     public String getSurname() {
 
         return surname;
@@ -48,6 +52,13 @@ public  class User {
 
     public void setSurname(String surname) {
         this.surname = surname;
+    }
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String name) {
+        this.city = city;
     }
 
     public String getEmail() {

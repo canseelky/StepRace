@@ -19,6 +19,7 @@ import tr.edu.msku.steprace.activity.LoginActivity;
 import tr.edu.msku.steprace.activity.SettingsActivity;
 import tr.edu.msku.steprace.fragment.Friends;
 import tr.edu.msku.steprace.fragment.HomeFragment;
+import tr.edu.msku.steprace.fragment.NotificationFragment;
 import tr.edu.msku.steprace.fragment.SearchResult;
 import tr.edu.msku.steprace.service.BackgroundService;
 
@@ -54,6 +55,9 @@ public class MainActivity extends AppCompatActivity {
 
                         case R.id.SearchMenu:
                           changeFragment(new SearchResult());
+                            break;
+                        case R.id.NotificationsMenu:
+                            changeFragment(new NotificationFragment());
                             break;
                         case R.id.SettingsMenu:
                             Intent intent3 = new Intent(MainActivity.this, SettingsActivity.class);
