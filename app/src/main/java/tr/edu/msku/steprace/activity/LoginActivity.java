@@ -2,10 +2,12 @@ package tr.edu.msku.steprace.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -28,12 +30,21 @@ public class LoginActivity extends AppCompatActivity {
     private String password;
     private boolean isLogin = false;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         mAuth = FirebaseAuth.getInstance();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        TextView t2 = (TextView) findViewById(R.id.register);
+        t2.setMovementMethod(LinkMovementMethod.getInstance());
+        t2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, SettingsActivity.class);
+                startActivity(intent);
+            }
+        });
         Log.d("main ", "edittextler adım");
         signin = findViewById(R.id.button_login);
         signin.setOnClickListener(new View.OnClickListener() {

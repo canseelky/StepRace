@@ -12,7 +12,6 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.FirebaseAppLifecycleListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -21,7 +20,6 @@ import tr.edu.msku.steprace.activity.SettingsActivity;
 import tr.edu.msku.steprace.fragment.Friends;
 import tr.edu.msku.steprace.fragment.HomeFragment;
 import tr.edu.msku.steprace.fragment.SearchResult;
-import tr.edu.msku.steprace.fragment.Settings;
 import tr.edu.msku.steprace.service.BackgroundService;
 
 public class MainActivity extends AppCompatActivity {
