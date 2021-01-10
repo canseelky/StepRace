@@ -17,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import tr.edu.msku.steprace.activity.LoginActivity;
+import tr.edu.msku.steprace.activity.SettingsActivity;
 import tr.edu.msku.steprace.fragment.Friends;
 import tr.edu.msku.steprace.fragment.HomeFragment;
 import tr.edu.msku.steprace.fragment.SearchResult;
@@ -57,7 +58,8 @@ public class MainActivity extends AppCompatActivity {
                           changeFragment(new SearchResult());
                             break;
                         case R.id.SettingsMenu:
-                            changeFragment(new Settings());
+                            Intent intent3 = new Intent(MainActivity.this, SettingsActivity.class);
+                            MainActivity.this.startActivity(intent3);
                             break;
                     }
                     return true;
