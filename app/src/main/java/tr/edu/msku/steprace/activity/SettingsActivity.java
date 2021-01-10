@@ -32,6 +32,7 @@ public class SettingsActivity extends AppCompatActivity {
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference reference = storage.getReference();
     ImageView viewImage;
+    ImageView back;
     final File localfile =File.createTempFile("images","jpg");
     public SettingsActivity() throws IOException {
 
@@ -69,6 +70,14 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
         viewImage=(ImageView) findViewById(R.id.viewImage);
         bindir =(Button) findViewById(R.id.bindir);
+        back =findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
         bindir.setOnClickListener(new View.OnClickListener() {
