@@ -47,7 +47,7 @@ public class SearchResult extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search_result, container, false);
 
-        users.add(new User("XXXX111", "YYYY1111","İstanbul"));
+        users.add(new User("John", "WICK","İstanbul"));
         users.add(new User("XXXX2222", "YYYY222","İzmir"));
         users.add(new User("XXXX", "YYYY","Ankara"));
         users.add(new User("XXXX111", "YYYY1111","İstanbul"));

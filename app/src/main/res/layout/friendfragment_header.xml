@@ -7,8 +7,8 @@
 
     <TextView
         android:id="@+id/name_header"
-        android:layout_width="315dp"
-        android:layout_height="60dp"
+        android:layout_width="256dp"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         android:fontFamily="sans-serif-black"
         android:gravity="center|right"

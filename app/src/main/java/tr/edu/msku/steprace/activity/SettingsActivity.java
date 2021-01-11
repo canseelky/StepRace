@@ -21,6 +21,7 @@ import com.google.firebase.storage.UploadTask;
 import java.io.File;
 import java.io.IOException;
 
+import tr.edu.msku.steprace.MainActivity;
 import tr.edu.msku.steprace.R;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -33,6 +34,7 @@ public class SettingsActivity extends AppCompatActivity {
     StorageReference reference = storage.getReference();
     ImageView viewImage;
     ImageView back;
+    Button logout;
     final File localfile =File.createTempFile("images","jpg");
     public SettingsActivity() throws IOException {
 
@@ -70,11 +72,20 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
         viewImage=(ImageView) findViewById(R.id.viewImage);
         bindir =(Button) findViewById(R.id.bindir);
+        logout = findViewById(R.id.logout);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
+                startActivity(intent);
+
+            }
+        });
         back =findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
+                Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
                 startActivity(intent);
             }
         });
