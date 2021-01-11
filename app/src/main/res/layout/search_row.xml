@@ -51,11 +51,15 @@
 
     <ImageButton
         android:id="@+id/send_friendship"
-        android:layout_width="66dp"
-        android:layout_height="37dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="74dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="12dp"
+        android:background="#FBFBFB"
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:scaleType="fitXY"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.849"
+        app:layout_constraintHorizontal_bias="0.88"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/add_icon" />

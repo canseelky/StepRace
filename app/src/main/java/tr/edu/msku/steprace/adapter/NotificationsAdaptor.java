@@ -6,14 +6,10 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.RecyclerViewAccessibilityDelegate;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import tr.edu.msku.steprace.R;
 import tr.edu.msku.steprace.model.User;
 
