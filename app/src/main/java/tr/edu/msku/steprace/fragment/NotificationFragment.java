@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tr.edu.msku.steprace.R;
-import tr.edu.msku.steprace.adapter.NotificationsAdaptor;
+import tr.edu.msku.steprace.adapter.NotificationsAdapter;
 import tr.edu.msku.steprace.model.User;
 
 /**
@@ -71,8 +71,8 @@ public class NotificationFragment extends Fragment {
         layoutManager = new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false);
 
 
-        NotificationsAdaptor adapter = new NotificationsAdaptor(users);
-        NotificationsAdaptor adapter1 = new NotificationsAdaptor(users);
+        NotificationsAdapter adapter = new NotificationsAdapter(users);
+        NotificationsAdapter adapter1 = new NotificationsAdapter(users);
 
         //recyclerView.setAdapter(friendAdapter);
         recyclerView.setLayoutManager(layoutManager);

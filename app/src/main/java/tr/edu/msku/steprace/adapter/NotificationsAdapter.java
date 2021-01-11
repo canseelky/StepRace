@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.RecyclerViewAccessibilityDelegate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,11 +16,11 @@ import java.util.List;
 import tr.edu.msku.steprace.R;
 import tr.edu.msku.steprace.model.User;
 
-public class NotificationsAdaptor extends RecyclerView.Adapter<NotificationsAdaptor.ViewHolderNotification>{
+public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdapter.ViewHolderNotification>{
 
     private List<User> users =new ArrayList<>();
 
-    public NotificationsAdaptor(List<User> users) {
+    public NotificationsAdapter(List<User> users) {
         this.users = users;
     }
 
@@ -31,7 +30,7 @@ public class NotificationsAdaptor extends RecyclerView.Adapter<NotificationsAdap
     public ViewHolderNotification onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.notification_row, parent, false);
-        return new NotificationsAdaptor.ViewHolderNotification(view);
+        return new NotificationsAdapter.ViewHolderNotification(view);
     }
 
     @Override
