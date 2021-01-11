@@ -12,7 +12,6 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.FirebaseAppLifecycleListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -20,8 +19,9 @@ import tr.edu.msku.steprace.activity.LoginActivity;
 import tr.edu.msku.steprace.activity.SettingsActivity;
 import tr.edu.msku.steprace.fragment.Friends;
 import tr.edu.msku.steprace.fragment.HomeFragment;
+import tr.edu.msku.steprace.fragment.NotificationFragment;
+import tr.edu.msku.steprace.fragment.SearchFragment;
 import tr.edu.msku.steprace.fragment.SearchResult;
-import tr.edu.msku.steprace.fragment.Settings;
 import tr.edu.msku.steprace.service.BackgroundService;
 
 public class MainActivity extends AppCompatActivity {
@@ -55,7 +55,11 @@ public class MainActivity extends AppCompatActivity {
                             break;
 
                         case R.id.SearchMenu:
-                          changeFragment(new SearchResult());
+                            changeFragment(new SearchFragment());
+                            break;
+
+                        case R.id.NotificationsMenu:
+                            changeFragment(new NotificationFragment());
                             break;
                         case R.id.SettingsMenu:
                             Intent intent3 = new Intent(MainActivity.this, SettingsActivity.class);
