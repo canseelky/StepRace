@@ -56,8 +56,8 @@ public class Friends extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_friends, container, false);
 
-        friends.add(new Friend("AAAAAAAA", "bbbbbb"));
-        friends.add(new Friend("KKKKKK", "LLLLLL"));
+        friends.add(new Friend("Jake", "22000"));
+        friends.add(new Friend("Emily", "19500"));
 
 
          /* for(Friend model : friends) {
