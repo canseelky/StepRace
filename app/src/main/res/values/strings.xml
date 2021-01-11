@@ -2,8 +2,6 @@
     <string name="app_name">StepRace</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string
-        name="Register"><a href=".RegisterActivity">Register</a></string>
-    <string
-        name="Login"><a href=".LoginActivity">Already Have an account? Login?</a></string>
+    <string name="Register"><a href=".RegisterActivity">Register</a></string>
+    <string name="Login"><a href=".LoginActivity">Already Have an account? Login?</a></string>
 </resources>
