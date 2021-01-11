@@ -49,7 +49,7 @@ public class SearchResult extends Fragment {
 
         users.add(new User("John", "WICK","İstanbul"));
         users.add(new User("XXXX2222", "YYYY222","İzmir"));
-        users.add(new User("XXXX", "YYYY","Ankara"));
+        users.add(new User("XXXXX", "YYYY","Ankara"));
         users.add(new User("XXXX111", "YYYY1111","İstanbul"));
         users.add(new User("XXXX2222", "YYYY222","İzmir"));
 
