@@ -3,7 +3,6 @@ package tr.edu.msku.steprace.activity;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.os.Bundle;
-
 import tr.edu.msku.steprace.R;
 
 public class SendFriendRequest extends AppCompatActivity {
@@ -13,12 +12,6 @@ public class SendFriendRequest extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_friend_request);
     }
-
-
-
-
-
-
 
     public static void SendRequest(Context context, int index){
 

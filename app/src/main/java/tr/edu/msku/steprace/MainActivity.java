@@ -5,15 +5,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.Calendar;
 
 import tr.edu.msku.steprace.activity.LoginActivity;
 import tr.edu.msku.steprace.activity.SettingsActivity;
@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //always start with homefragment
+        //startIntentService();
         changeFragment(new HomeFragment());
 
             navigationView = findViewById(R.id.bottom_navigation);
@@ -89,19 +90,16 @@ public class MainActivity extends AppCompatActivity {
 
                     }
 
-
-
                 }
             };
-
-
-
 
     }
     @Override
     protected void onStart(){
 
         //TODO update the UI
+        Calendar c = Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance();
 
         super.onStart();
     }
@@ -123,16 +121,15 @@ public class MainActivity extends AppCompatActivity {
 
     protected void startIntentService () {
         Intent intent = new Intent(this, BackgroundService.class);
-        //intent.putExtra("numOfSteps", numOfSteps);
-        //intent.putExtra("userid", Users.userId);
         startService(intent);
     }
 
     protected  void changeFragment(Fragment fragment){
-        FragmentTransaction fts = getSupportFragmentManager().beginTransaction();
-        fts.replace(R.id.container, fragment);
-        fts.commit();
+        if (fragment != null){
+            FragmentTransaction fts = getSupportFragmentManager().beginTransaction();
+            fts.replace(R.id.container, fragment);
+            fts.commit();
 
-
+        }
     }
 }

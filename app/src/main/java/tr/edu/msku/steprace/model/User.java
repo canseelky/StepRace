@@ -10,11 +10,9 @@ public  class User {
     private String surname;
     private String city;
     private String email;
-    private Date dateOfBirth;
+    private String dateOfBirth;
     private URL image;
-    private int numOfSteps;
-    private Date date;
-    private List<Friend> friends;
+    private String user_id;
 
 
     public User(String name, String surname,String city) {
@@ -24,16 +22,22 @@ public  class User {
 
     }
 
+    public String getUser_id() {
 
-    public User(String name, String surname, String city,String email, Date dateOfBirth, URL image, int numOfSteps, Date date) {
+        return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
+    }
+
+    public User(String name, String surname, String user_id, String city, String email, String dateOfBirth) {
         this.name = name;
         this.city =city;
         this.surname = surname;
         this.email = email;
         this.dateOfBirth = dateOfBirth;
-        this.image = image;
-        this.numOfSteps = numOfSteps;
-        this.date = date;
+        this.user_id = user_id;
     }
 
     public String getName() {
@@ -69,11 +73,11 @@ public  class User {
         this.email = email;
     }
 
-    public Date getDateOfBirth() {
+    public String getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
+    public void setDateOfBirth(String dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
@@ -85,31 +89,12 @@ public  class User {
         this.image = image;
     }
 
-    public int getNumOfSteps() {
-        return numOfSteps;
-    }
-
-    public void setNumOfSteps(int numOfSteps) {
-        this.numOfSteps = numOfSteps;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-
 
     @Override
     public String toString() {
         return "Users{" +
                 "name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
-                ", numOfSteps=" + numOfSteps +
-                ", date=" + date +
                 '}';
     }
 }

@@ -16,27 +16,42 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import tr.edu.msku.steprace.R;
+import tr.edu.msku.steprace.model.User;
 
 public class RegisterActivity extends AppCompatActivity {
     EditText userName,password;
+    EditText userSurname;
     TextView AccountExists;
+    EditText city;
+    EditText email_register;
+    EditText dateOfBird;
     Button register;
     private FirebaseAuth mAuth;//Used for firebase authentication
-
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private String user_id;
     private ProgressDialog loadingBar;//Used to show the progress of the registration process
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         mAuth = FirebaseAuth.getInstance();
-        userName = (EditText) findViewById(R.id.username2);
-        password = (EditText) findViewById(R.id.Password2);
+        userName = (EditText) findViewById(R.id.PersonName);
+        userSurname = findViewById(R.id.PersonSurname);
+        password = (EditText) findViewById(R.id.Password);
         register = (Button) findViewById(R.id.submit_btn);
+        city = findViewById(R.id.city);
+        email_register = findViewById(R.id.email);
+        dateOfBird = findViewById(R.id.date);
+
         AccountExists = (TextView) findViewById(R.id.Already_link);
         TextView t2 = (TextView) findViewById(R.id.Already_link);
         t2.setMovementMethod(LinkMovementMethod.getInstance());
@@ -65,8 +80,14 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void createNewAccount() {
-        String email = userName.getText().toString().trim();
-        String pwd = password.getText().toString();
+        final String user_name = userName.getText().toString().trim();
+        final String UserSurname = userName.getText().toString().trim();
+        final String email = email_register.getText().toString().trim();
+        String pwd = password.getText().toString().trim();
+        final String city_register = city.getText().toString().trim();
+        final String dateOFbird_register = dateOfBird.getText().toString().trim();
+
+
         if(TextUtils.isEmpty(email))
         {
             Toast.makeText(RegisterActivity.this,"Please enter email id",Toast.LENGTH_SHORT).show();
@@ -89,8 +110,29 @@ public class RegisterActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful())//If account creation successful print message and send user to Login Activity
                             {
+
+                                final String user_id = mAuth.getUid().toString().trim();
+                                DocumentReference ref = db.collection("Users").document(user_id);
+                                User user = new User(user_name,UserSurname,user_id,city_register,email,dateOFbird_register);
+                                ref.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+
+
+
+
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+
+                                    }
+                                });
                                 sendUserToLoginActivity();
                                 Toast.makeText(RegisterActivity.this,"Account created successfully",Toast.LENGTH_SHORT).show();
+
+
+
                                 loadingBar.dismiss();
                             }
                             else//Print the error message incase of failure
