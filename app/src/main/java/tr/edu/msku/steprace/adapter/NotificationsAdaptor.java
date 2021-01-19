@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 import tr.edu.msku.steprace.R;
+import tr.edu.msku.steprace.activity.SendFriendRequest;
 import tr.edu.msku.steprace.model.User;
 
 public class NotificationsAdaptor extends RecyclerView.Adapter<NotificationsAdaptor.ViewHolderNotification>{
@@ -35,7 +36,7 @@ public class NotificationsAdaptor extends RecyclerView.Adapter<NotificationsAdap
         holder.name.setText ( users.get(position).getName());
         holder.surname.setText ( users.get(position).getSurname());
         holder.city.setText ( users.get(position).getCity());
-        holder.profile_photo.setImageResource(R.drawable.user);;
+        holder.profile_photo.setImageResource(R.drawable.user);
 
     }
 

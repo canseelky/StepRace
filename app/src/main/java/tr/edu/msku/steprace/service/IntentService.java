@@ -37,11 +37,6 @@ public class IntentService extends android.app.IntentService implements SensorEv
         editor = mPref.edit();
         editor.putInt("numOfSteps",numOfSteps++);
 
-
-
-
-
-
     }
 
     @Override

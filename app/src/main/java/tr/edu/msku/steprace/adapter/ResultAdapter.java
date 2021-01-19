@@ -66,6 +66,7 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ViewHolder
                 @Override
                 public void onClick(View v) {
                     //TODO send friendship request
+                    //SendFriendRequest.SendRequest(this,);
 
                 }
             });

@@ -72,6 +72,7 @@ public class Friends extends Fragment {
         FriendsAdapter adapter = new FriendsAdapter(friends);
 
         //recyclerView.setAdapter(friendAdapter);
+        recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
 
         return view;

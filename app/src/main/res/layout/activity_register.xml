@@ -19,21 +19,21 @@
         app:srcCompat="@drawable/logo" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/PersonName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:layout_marginLeft="60dp"
         android:ems="10"
         android:hint="Name"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/username2"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.25" />
+        app:layout_constraintVertical_bias="0.255" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName2"
+        android:id="@+id/PersonSurname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -47,7 +47,7 @@
         app:layout_constraintVertical_bias="0.361" />
 
     <EditText
-        android:id="@+id/username2"
+        android:id="@+id/email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
@@ -63,7 +63,7 @@
         app:layout_constraintVertical_bias="0.456" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/dOb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Date Of Birth"
@@ -75,7 +75,7 @@
         app:layout_constraintVertical_bias="0.56" />
 
     <EditText
-        android:id="@+id/editTextDate"
+        android:id="@+id/date"
         android:layout_width="141dp"
         android:layout_height="50dp"
         android:ems="10"
@@ -89,7 +89,7 @@
         app:layout_constraintVertical_bias="0.566" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName5"
+        android:id="@+id/city"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -97,13 +97,13 @@
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.228"
+        app:layout_constraintHorizontal_bias="0.227"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.676" />
+        app:layout_constraintVertical_bias="0.672" />
 
     <EditText
-        android:id="@+id/Password2"
+        android:id="@+id/Password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
