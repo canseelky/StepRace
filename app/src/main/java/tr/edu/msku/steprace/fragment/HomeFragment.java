@@ -1,6 +1,8 @@
 package tr.edu.msku.steprace.fragment;
 
 import android.app.Activity;
+import android.app.IntentService;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,6 +27,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import java.text.SimpleDateFormat;
@@ -43,7 +46,7 @@ public class HomeFragment extends Fragment {
     private TextView today;
     private TextView month;
     private TextView week;
-    SimpleDateFormat simpledate = new SimpleDateFormat("dd-MM-yyyy");
+    SimpleDateFormat simpledate = new SimpleDateFormat("yyyy-MM-dd");
     String today_date= simpledate.format(new Date());
     private Data data;
     private ArrayList<Integer> datalist = new ArrayList();
@@ -85,7 +88,7 @@ public class HomeFragment extends Fragment {
 
        week = view.findViewById(R.id.step_num_week);
        month = view.findViewById(R.id.step_num_month);
-       Data data1 = new Data("1/12/1232",12);
+       Data data1 = new Data("1/12/1232",90);
        ref.set(data1);
         return view;
     }
@@ -98,6 +101,7 @@ public class HomeFragment extends Fragment {
 
         today = getView().findViewById(R.id.step_num_day);
 
+        Log.d("current",user_id);
         ref.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -142,8 +146,6 @@ private void update(){
 
 
 }
-
-
 private int getData(final String date){
         mcollectionReference.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
@@ -175,6 +177,7 @@ private int getData(final String date){
         return numOfStep;
 
 }
+
 
 
 }

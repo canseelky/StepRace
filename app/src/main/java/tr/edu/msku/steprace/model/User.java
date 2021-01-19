@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public  class User {
+public class User {
     private String name;
     private String surname;
     private String city;
@@ -13,6 +13,11 @@ public  class User {
     private String dateOfBirth;
     private URL image;
     private String user_id;
+
+
+    public User() {
+
+    }
 
 
     public User(String name, String surname,String city) {

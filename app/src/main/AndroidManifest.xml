@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="tr.edu.msku.steprace">
 
-    <permission android:name="android.hardware.Sensor" />
-    <permission
-        android:name="android.hardware.SensorEventListener"
-        android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -17,14 +14,26 @@
         <activity android:name=".activity.SettingsActivity"></activity>
         <activity android:name=".activity.SendFriendRequest" />
         <activity android:name=".activity.RegisterActivity" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".activity.LoginActivity">
+        <activity android:name=".activity.LoginActivity" />
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service android:name=".service.IntentService"
+            android:enabled="true"
+            tools:ignore="Instantiatable">
+        </service>
+
     </application>
+    <permission android:name="android.hardware.Sensor" />
+    <permission
+        android:name="android.hardware.SensorEventListener"
+        android:required="true" />
+    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION"/>
+
 
 </manifest>
