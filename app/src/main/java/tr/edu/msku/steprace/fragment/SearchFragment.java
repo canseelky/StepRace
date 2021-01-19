@@ -1,5 +1,7 @@
 package tr.edu.msku.steprace.fragment;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -7,8 +9,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -32,6 +38,9 @@ public class SearchFragment extends Fragment  {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
+    private SearchView searchView = null;
+    private SearchView.OnQueryTextListener queryTextListener;
+
     private static final String ARG_PARAM2 = "param2";
 
 
@@ -69,6 +78,7 @@ public class SearchFragment extends Fragment  {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
 
 
         if (getArguments() != null) {
@@ -77,6 +87,8 @@ public class SearchFragment extends Fragment  {
 
         }
     }
+
+
     protected  void changeFragment(Fragment fragment) {
         FragmentManager mFragmentManager = getFragmentManager();
 

@@ -19,7 +19,7 @@
         app:srcCompat="@drawable/text" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName8"
+        android:id="@+id/email_settings"
         android:layout_width="208dp"
         android:layout_height="41dp"
         android:ems="10"
@@ -34,7 +34,7 @@
         app:layout_constraintVertical_bias="0.541" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName7"
+        android:id="@+id/surname_settings"
         android:layout_width="208dp"
         android:layout_height="41dp"
         android:ems="10"
@@ -111,7 +111,7 @@
         app:layout_constraintVertical_bias="0.271" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName3"
+        android:id="@+id/name_settings"
         android:layout_width="208dp"
         android:layout_height="41dp"
         android:ems="10"
@@ -182,7 +182,7 @@
         app:layout_constraintVertical_bias="0.755" />
 
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/delete_account"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="DELETE ACCOUNT"
