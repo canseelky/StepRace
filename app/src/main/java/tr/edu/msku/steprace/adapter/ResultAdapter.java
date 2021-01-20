@@ -69,7 +69,6 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ViewHolder
                 }
             });
 
-
         }
         else if(holder.view_type == HEADER) {
 

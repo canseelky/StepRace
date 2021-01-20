@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements onUserAdded {
         //always start with homefragment
         //startIntentService();
         changeFragment(new HomeFragment());
-        //startIntentService();
+
 
             navigationView = findViewById(R.id.bottom_navigation);
 
@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements onUserAdded {
     }
     @Override
     protected void onStart(){
-
+        startIntentService();
         //TODO update the UI
         Calendar c = Calendar.getInstance();
         Calendar calendar = Calendar.getInstance();
