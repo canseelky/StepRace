@@ -11,6 +11,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -21,13 +22,14 @@ import java.util.Calendar;
 
 import tr.edu.msku.steprace.activity.LoginActivity;
 import tr.edu.msku.steprace.activity.SettingsActivity;
+import tr.edu.msku.steprace.adapter.onUserAdded;
 import tr.edu.msku.steprace.fragment.Friends;
 import tr.edu.msku.steprace.fragment.HomeFragment;
 import tr.edu.msku.steprace.fragment.NotificationFragment;
 import tr.edu.msku.steprace.fragment.SearchFragment;
 import tr.edu.msku.steprace.service.IntentService;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements onUserAdded {
 
 
     BottomNavigationView navigationView;
@@ -135,5 +137,10 @@ public class MainActivity extends AppCompatActivity {
             fts.commit();
 
         }
+    }
+
+    @Override
+    public void onUserAdd(String id) {
+        Log.d("main66",id);
     }
 }
