@@ -96,6 +96,7 @@ public class Friends extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        getFriends();
 
 
     }
@@ -107,7 +108,7 @@ public class Friends extends Fragment {
                 for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
                     friend = snapshot.toObject(Friend.class);
                     friendsid.add(snapshot.getId());
-                    Log.d("main", snapshot.getId());
+                    Log.d("Friend id", snapshot.getId());
                 }
               mCallback.onCallback(friendsid);
             }});
@@ -122,13 +123,40 @@ public class Friends extends Fragment {
 
      getFriendsId(new mCallback() {
          @Override
-         public void onCallback(ArrayList<String> list) {
-             Log.d("main44",list.toString());
+         public void onCallback(final ArrayList<String> list) {
+
+             CollectionReference mUserReference= db.collection("Users");
+
+             mUserReference.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                 User user1;
+                 @Override
+                 public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                     for (QueryDocumentSnapshot user : queryDocumentSnapshots){
+
+                         user1 = user.toObject(User.class);
+                         for (int i = 0; i< list.size(); i++){
+                             //Log.d("friends listid ,user id",list.get(i) +list.get(i) );
+                             //Log.d("friends user id ",user.getId());
+                             if (user.getId().equals(list.get(i))){
+                                 Log.d("friends list",friends.toString());
+                                 friends.add(new Friend(user1.getName(),user1.getSurname()));
+                                 Log.d("friends",user.getString(user1.getName()) + " " +user.getString(user1.getSurname()));
+
+                             }
+                         }
+                     }
+                 }
+             }).addOnFailureListener(new OnFailureListener() {
+                 @Override
+                 public void onFailure(@NonNull Exception e) {
+
+                 }
+             });
+
+
+
          }
      });
-
-        CollectionReference mUserReference= db.collection("Users");
-
 
 
 

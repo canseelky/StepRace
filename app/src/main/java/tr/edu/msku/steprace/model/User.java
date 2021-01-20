@@ -20,10 +20,11 @@ public class User {
     }
 
 
-    public User(String name, String surname,String city) {
+    public User(String name, String surname,String city,String user_id) {
         this.name = name;
         this.surname = surname;
         this.city =city;
+        this.user_id =user_id;
 
     }
 
