@@ -7,6 +7,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -53,6 +54,8 @@ public class IntentService extends android.app.IntentService implements SensorEv
 
     @Override
     public void onSensorChanged(SensorEvent event) {
+
+        Log.d("ıntent","sensorchanged");
         databaseUpdate();
     }
 
@@ -68,24 +71,28 @@ public class IntentService extends android.app.IntentService implements SensorEv
 
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                documentSnapshot.toObject(Data.class);
                 Data data = new Data();
-                String step = documentSnapshot.getString("num");
-                Integer number_of_steps = Integer.valueOf(step);
 
-                if(documentSnapshot == null){
-
+                //Integer step = documentSnapshot.getString("num");
+                int number_of_steps = Integer.valueOf(String.valueOf(data.getNum()));
+                Log.d("ıntent1" ,String.valueOf(data.getNum()));
+                if(number_of_steps == 0){
                     data.setDate(date);
+                    Log.d("ıntent1" ,String.valueOf(data.getNum()));
                     data.setNum(1);
 
                     ref.set(data).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
+                            Log.d("ıntent","database yazıldı");
 
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-
+                            Log.d("ıntent","database yazılamadı" + e.toString());
                         }
                     });
 
@@ -93,10 +100,16 @@ public class IntentService extends android.app.IntentService implements SensorEv
 
                 if (documentSnapshot.exists() && documentSnapshot != null && number_of_steps > 0 ){
                     data.setDate(date);
-                    data.setNum(number_of_steps++);
+                    int numb = data.getNum();
+
+                    Log.d("ıntent1" ,String.valueOf(data.getNum()));
+                    data.setNum(numb++);
+                    Log.d("ıntent1" ,String.valueOf(data.getNum()));
+
                     ref.set(data).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
+                            Log.d("ıntent","database yazıldı");
 
                         }
                     }).addOnFailureListener(new OnFailureListener() {

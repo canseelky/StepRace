@@ -88,8 +88,8 @@ public class HomeFragment extends Fragment {
 
        week = view.findViewById(R.id.step_num_week);
        month = view.findViewById(R.id.step_num_month);
-       Data data1 = new Data("1/12/1232",90);
-       ref.set(data1);
+       //Data data1 = new Data("1/12/1232",90);
+       //ref.set(data1);
         return view;
     }
 

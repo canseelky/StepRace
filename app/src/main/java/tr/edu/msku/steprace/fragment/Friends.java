@@ -1,5 +1,4 @@
 package tr.edu.msku.steprace.fragment;
-
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -18,6 +17,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
+
+import tr.edu.msku.steprace.MainActivity;
 import tr.edu.msku.steprace.adapter.FriendsAdapter;
 import tr.edu.msku.steprace.R;
 import tr.edu.msku.steprace.model.Friend;
@@ -37,6 +38,7 @@ public class Friends extends Fragment {
     private CollectionReference mUserReference= db.collection("Users").document(
             user_id).collection("friend"); private CollectionReference mCollectionRef = db.collection("Friends").document(
             user_id).collection("friend");
+   private CollectionReference mUser = db.collection("Users");
 
 
     public Friends() {
@@ -57,9 +59,6 @@ public class Friends extends Fragment {
 
         }
 
-
-
-
     }
 
     @Override
@@ -67,36 +66,60 @@ public class Friends extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_friends, container, false);
 
+        getFriendsId(new mCallback() {
+            //get list
+            @Override
+            public void onCallback(final ArrayList<String> list) {
+                mUser.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    User user1;
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for (QueryDocumentSnapshot user : queryDocumentSnapshots){
+                            user1 = user.toObject(User.class);
+                            if (user.getId() != null){
+                                String id = user.getId().trim();
+                                for(int i =0; i<list.size();i++){
+                                    //Log.d("friends", String.valueOf((list.get(i).trim().equals(id))));
+                                    if ((list.get(i).trim().equals(id))){
+                                        //Log.d("friends",friends.toString());
+                                        //Log.d("friends","same");
+                                        friends.add(new Friend(user1.getName(),user1.getSurname()));
+                                        //Log.d("friends",friends.get(0).getName());
+                                    }
+                                    else {
+                                        continue;
+                                    }
+                                }
+                            }
+                        }
+                        recyclerView = getView().findViewById(R.id.recyclerView_friends);
+                        layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+                        recyclerView.setLayoutManager(layoutManager);
+                        friendsAdapter = new FriendsAdapter(friends);
+                        FriendsAdapter adapter = new FriendsAdapter(friends);
+                        recyclerView.setHasFixedSize(true);
+                        recyclerView.setAdapter(adapter);
+                    }
+
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+
+            }
+        });
 
 
 
-        friends.add(new Friend("Jake", "22000"));
-        friends.add(new Friend("Emily", "19500"));
-
-
-
-        recyclerView = view.findViewById(R.id.recyclerView_friends);
-        layoutManager = new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(layoutManager);
-
-        friendsAdapter = new FriendsAdapter(friends);
-
-
-
-
-        FriendsAdapter adapter = new FriendsAdapter(friends);
-
-        //recyclerView.setAdapter(friendAdapter);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(adapter);
 
         return view;
     }
 
     @Override
-    public void onStart() {
+    public  void onStart() {
         super.onStart();
-        getFriends();
 
 
     }
@@ -107,8 +130,9 @@ public class Friends extends Fragment {
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
                     friend = snapshot.toObject(Friend.class);
+                    //Log.d("Friend id", snapshot.getId());
                     friendsid.add(snapshot.getId());
-                    Log.d("Friend id", snapshot.getId());
+
                 }
               mCallback.onCallback(friendsid);
             }});
@@ -117,58 +141,9 @@ public class Friends extends Fragment {
 
 
 
-
-    private void getFriends(){
-
-
-     getFriendsId(new mCallback() {
-         @Override
-         public void onCallback(final ArrayList<String> list) {
-
-             CollectionReference mUserReference= db.collection("Users");
-
-             mUserReference.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                 User user1;
-                 @Override
-                 public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                     for (QueryDocumentSnapshot user : queryDocumentSnapshots){
-
-                         user1 = user.toObject(User.class);
-                         for (int i = 0; i< list.size(); i++){
-                             //Log.d("friends listid ,user id",list.get(i) +list.get(i) );
-                             //Log.d("friends user id ",user.getId());
-                             if (user.getId().equals(list.get(i))){
-                                 Log.d("friends list",friends.toString());
-                                 friends.add(new Friend(user1.getName(),user1.getSurname()));
-                                 Log.d("friends",user.getString(user1.getName()) + " " +user.getString(user1.getSurname()));
-
-                             }
-                         }
-                     }
-                 }
-             }).addOnFailureListener(new OnFailureListener() {
-                 @Override
-                 public void onFailure(@NonNull Exception e) {
-
-                 }
-             });
-
-
-
-         }
-     });
-
-
-
-    }
-
-    private interface mCallback{
+private interface mCallback{
         void onCallback(ArrayList<String> list);
 }
-
-
-
-
 
 
 
