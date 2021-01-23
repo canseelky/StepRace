@@ -8,8 +8,8 @@
 
     <FrameLayout
         android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="648dp"></FrameLayout>
+        android:layout_width="400dp"
+        android:layout_height="560dp"></FrameLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"

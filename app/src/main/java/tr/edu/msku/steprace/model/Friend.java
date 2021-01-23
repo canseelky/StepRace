@@ -5,12 +5,21 @@ public class Friend {
     private String surname;
     private String ppUrl;
     private String id;
+    private String data;
+    public Friend() {
+    }
 
+
+    public Friend(String id) {
+        this.id = id;
+
+    }
 
     public Friend(String name, String surname) {
         this.name = name;
         this.surname = surname;
     }
+
 
     public String getId() {
         return id;
@@ -42,5 +51,13 @@ public class Friend {
 
     public void setPpUrl(String ppUrl) {
         this.ppUrl = ppUrl;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
     }
 }

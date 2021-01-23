@@ -1,5 +1,7 @@
 package tr.edu.msku.steprace.adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import tr.edu.msku.steprace.MainActivity;
 import tr.edu.msku.steprace.R;
 import tr.edu.msku.steprace.model.Friend;
 
@@ -23,6 +26,7 @@ public class FriendsAdapter extends RecyclerView.Adapter <FriendsAdapter.ViewHol
     List<Friend> friends = new ArrayList<>();
     private View view;
     private ViewHolder2 mViewholder;
+    private Context mcontext;
     public FriendsAdapter(List<Friend> friends) {
         this.friends = friends;
     }
@@ -46,6 +50,7 @@ public class FriendsAdapter extends RecyclerView.Adapter <FriendsAdapter.ViewHol
 
 
         }
+
         return null;
     }
 
@@ -55,21 +60,14 @@ public class FriendsAdapter extends RecyclerView.Adapter <FriendsAdapter.ViewHol
         if ( holder.view_type == LIST){
             friend = friends.get(position-1);
             holder.ad.setText(friend.getName());
-            holder.soyad.setText(friend.getSurname());
+            holder.soyad.setText(friend.getData());
             holder.profilpp.setImageResource(R.drawable.user);
-
         }
 
         else if (holder.view_type == HEADER){
             holder.headername.setText("Name");
             holder.headerstep.setText("Number of Steps");
-
-
         }
-
-
-
-
     }
 
     @Override
