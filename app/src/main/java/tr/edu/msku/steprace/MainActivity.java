@@ -53,8 +53,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         //always start with homefragment
         //startIntentService();
-        changeFragment(new HomeFragment());
 
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user == null){
+            Toast.makeText(MainActivity.this,"Enter e-mail address and password ! ",Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+
+        }
+
+
+
+        changeFragment(new HomeFragment());
 
             navigationView = findViewById(R.id.bottom_navigation);
 
@@ -87,30 +98,33 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-            mFirebaseAuth = FirebaseAuth.getInstance();
-            mAuthStateListener = new FirebaseAuth.AuthStateListener() {
-                @Override
-                public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
 
-                    FirebaseUser user = firebaseAuth.getCurrentUser();
-                    if (user == null){
-                        Toast.makeText(MainActivity.this,"Enter e-mail address and password ! ",Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(MainActivity.this,LoginActivity.class);
-                        startActivity(intent);
-                    }
-                    else{
-                        //Toast.makeText(MainActivity.this,"You are already logged in"  ,Toast.LENGTH_SHORT).show();
-
-                    }
-
-                }
-            };
 
     }
     @Override
     protected void onStart(){
+        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                if (FirebaseAuth.getInstance().getCurrentUser() == null){
+                    Toast.makeText(MainActivity.this,"Enter e-mail address and password ! ",Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }
+                else{
+                    //Toast.makeText(MainActivity.this,"You are already logged in"  ,Toast.LENGTH_SHORT).show();
+
+                }
+
+            }
+        };
+
+
         startIntentService();
         //TODO update the UI
+
+
+
     Intent uid = getIntent();
     user_req_id = uid.getStringExtra("userid");
 
@@ -129,7 +143,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         mFirebaseAuth.addAuthStateListener(mAuthStateListener);
-
 
     }
 
