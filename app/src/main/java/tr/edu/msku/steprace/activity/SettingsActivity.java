@@ -125,6 +125,11 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         logout =findViewById(R.id.logout);
+        setContentView(R.layout.activity_settings);
+        viewImage=(ImageView) findViewById(R.id.viewImage);
+        bindir =(Button) findViewById(R.id.bindir);
+        logout = findViewById(R.id.logout);
+        delete_account = findViewById(R.id.delete_account);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

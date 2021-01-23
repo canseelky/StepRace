@@ -6,6 +6,14 @@ public class Friend {
     private String ppUrl;
     private String id;
 
+    public Friend() {
+    }
+
+
+    public Friend(String id) {
+        this.id = id;
+
+    }
 
     public Friend(String name, String surname) {
         this.name = name;

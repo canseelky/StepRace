@@ -61,9 +61,9 @@ public class NotificationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_notification, container, false);
-        users.add(new User("Jake", "Peralta", "NewYork"));
-        users.add(new User("Mary", "Couper", "Paris"));
-        users.add(new User("Kate", "Darvis", "London"));
+        users.add(new User("Jake", "Peralta", "NewYork","erfg"));
+        users.add(new User("Mary", "Couper", "Paris","sdf"));
+        users.add(new User("Kate", "Darvis", "London","qwedfr"));
 
 
         // Set the adapter

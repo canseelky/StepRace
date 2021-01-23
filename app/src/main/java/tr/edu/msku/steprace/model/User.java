@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public  class User {
+public class User {
     private String name;
     private String surname;
     private String city;
@@ -15,10 +15,22 @@ public  class User {
     private String user_id;
 
 
+    public User() {
+
+    }
+
     public User(String name, String surname,String city) {
         this.name = name;
         this.surname = surname;
         this.city =city;
+
+    }
+
+    public User(String name, String surname,String city,String user_id) {
+        this.name = name;
+        this.surname = surname;
+        this.city =city;
+        this.user_id =user_id;
 
     }
 
