@@ -51,7 +51,7 @@ public class SettingsActivity extends AppCompatActivity {
     private ImageView backBtn;
     private Button updateBtn;
     private Button delete_account;
-    private Button logout;
+    private Button logOut;
     private FirebaseAuth fAuth;
     private FirebaseFirestore fStore;
     private FirebaseUser user;
@@ -124,13 +124,6 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        logout =findViewById(R.id.logout);
-        setContentView(R.layout.activity_settings);
-        viewImage=(ImageView) findViewById(R.id.viewImage);
-        bindir =(Button) findViewById(R.id.bindir);
-        logout = findViewById(R.id.logout);
-        delete_account = findViewById(R.id.delete_account);
-        logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String email = profileEmail.getText().toString().trim();
