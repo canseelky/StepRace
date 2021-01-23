@@ -34,6 +34,11 @@ public class User {
 
     }
 
+    public User(String user_id) {
+        this.user_id =user_id;
+
+    }
+
     public String getUser_id() {
 
         return user_id;

@@ -13,6 +13,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ public class Friends extends Fragment {
             user_id).collection("friend"); private CollectionReference mCollectionRef = db.collection("Friends").document(
             user_id).collection("friend");
    private CollectionReference mUser = db.collection("Users");
-
+    private CollectionReference mUserdata = db.collection("Users");
 
     public Friends() {
         // Required empty public constructor
@@ -65,7 +66,7 @@ public class Friends extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_friends, container, false);
-
+        Query query = mUser.orderBy("name").limit(3);
         getFriendsId(new mCallback() {
             //get list
             @Override

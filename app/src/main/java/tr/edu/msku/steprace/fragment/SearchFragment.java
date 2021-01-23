@@ -84,10 +84,11 @@ public class SearchFragment extends Fragment  {
                         for(QueryDocumentSnapshot user: queryDocumentSnapshots){
 
                             User user1 = user.toObject(User.class);
-                            String name = user.getString(user1.getName());
-                            String surname = user.getString(user1.getSurname());
-                            String city = "ankara";
-                            users.add(new User(name,surname,city));
+                            String name = user.getString("name");
+                            String surname = user.getString("surame");
+                            String city = user.getString("city");
+                            String id = user.getString("user_id");
+                            users.add(new User(name,surname,city,id));
                             Log.d("search1",users.get(0).toString());
                         }
 
@@ -99,10 +100,29 @@ public class SearchFragment extends Fragment  {
 
                     }
                 });
+                mUser.whereEqualTo(("name"),text).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for(QueryDocumentSnapshot user: queryDocumentSnapshots){
 
+                            User user1 = user.toObject(User.class);
+                            String name = user.getString("name");
+                            String surname = user.getString("surame");
+                            String city = user.getString("city");
+                            String id = user.getString("user_id");
+                            users.add(new User(name,surname,city,id));
+                            Log.d("search1",users.get(0).toString());
+                        }
+
+                        //Log.d("search1",users.get(0).toString());
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
                 //Log.d("search1",users.get(0).toString());
-
-
 //                users.add(new User("John", "WICK","İstanbul","2"));
 //                users.add(new User("XXXX2222", "YYYY222","İzmir","13"));
 //                users.add(new User("XXXXX", "YYYY","Ankara","23"));
