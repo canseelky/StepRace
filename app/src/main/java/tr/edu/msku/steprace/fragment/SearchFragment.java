@@ -1,67 +1,51 @@
 package tr.edu.msku.steprace.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
-
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
-import android.view.KeyEvent;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.SearchView;
-import android.widget.TextView;
-
-import java.util.zip.Inflater;
-
-import tr.edu.msku.steprace.MainActivity;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import java.util.ArrayList;
+import java.util.List;
 import tr.edu.msku.steprace.R;
-import tr.edu.msku.steprace.activity.SettingsActivity;
+import tr.edu.msku.steprace.adapter.ResultAdapter;
+import tr.edu.msku.steprace.model.User;
+import tr.edu.msku.steprace.model.UserStore;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SearchFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class SearchFragment extends Fragment  {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private Button search;
+    private EditText search_text;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private CollectionReference mUser = db.collection("Users");
 
+    private RecyclerView recyclerView;
+    public List<User> users = new ArrayList<>();
 
-
-
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-    Button search;
 
     public SearchFragment() {
         // Required empty public constructor
 
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SearchFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static SearchFragment newInstance(String param1, String param2) {
         SearchFragment fragment = new SearchFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -70,12 +54,6 @@ public class SearchFragment extends Fragment  {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-
-        }
     }
     protected  void changeFragment(Fragment fragment) {
         FragmentManager mFragmentManager = getFragmentManager();
@@ -89,15 +67,82 @@ public class SearchFragment extends Fragment  {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
+
+
         search =view.findViewById(R.id.search_b);
+        search_text = (EditText)view.findViewById(R.id.search_text);
+        String text = search_text.getText().toString().trim();
+
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                changeFragment(new SearchResult());
+                String text = search_text.getText().toString().trim();
+                Log.d("search1",text);
+                mUser.whereEqualTo("email",text).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for(QueryDocumentSnapshot user: queryDocumentSnapshots){
+
+                            User user1 = user.toObject(User.class);
+                            String name = user.getString("name");
+                            String surname = user.getString("surame");
+                            String city = user.getString("city");
+                            String id = user.getString("user_id");
+                            users.add(new User(name,surname,city,id));
+                            Log.d("search1",users.get(0).toString());
+                        }
+
+                        //Log.d("search1",users.get(0).toString());
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+                mUser.whereEqualTo(("name"),text).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for(QueryDocumentSnapshot user: queryDocumentSnapshots){
+
+                            User user1 = user.toObject(User.class);
+                            String name = user.getString("name");
+                            String surname = user.getString("surame");
+                            String city = user.getString("city");
+                            String id = user.getString("user_id");
+                            users.add(new User(name,surname,city,id));
+                            Log.d("search1",users.get(0).toString());
+                        }
+
+                        //Log.d("search1",users.get(0).toString());
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+                //Log.d("search1",users.get(0).toString());
+//                users.add(new User("John", "WICK","İstanbul","2"));
+//                users.add(new User("XXXX2222", "YYYY222","İzmir","13"));
+//                users.add(new User("XXXXX", "YYYY","Ankara","23"));
+//                users.add(new User("XXXX111", "YYYY1111","İstanbul","1ewds"));
+//                users.add(new User("XXXX2222", "YYYY222","İzmir","dfdg"));
+
+
+
+                UserStore userStore = new UserStore();
+                userStore.setUsers(users);
+                recyclerView = getView().findViewById(R.id.recyclerview_result);
+                ResultAdapter resultAdapter = new ResultAdapter(userStore.getUsers());
+                recyclerView.setAdapter(resultAdapter);
+                LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+                recyclerView.setLayoutManager(layoutManager);
+
+
+
             }
         });
-        // Inflate the layout for this fragment
-
 
         return view;
     }

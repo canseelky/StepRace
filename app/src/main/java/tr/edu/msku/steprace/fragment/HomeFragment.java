@@ -1,6 +1,8 @@
 package tr.edu.msku.steprace.fragment;
 
 import android.app.Activity;
+import android.app.IntentService;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,8 +27,11 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.*;
@@ -43,15 +48,17 @@ public class HomeFragment extends Fragment {
     private TextView today;
     private TextView month;
     private TextView week;
-    SimpleDateFormat simpledate = new SimpleDateFormat("dd-MM-yyyy");
-    String today_date= simpledate.format(new Date());
+    SimpleDateFormat simpledate = new SimpleDateFormat("yyyy-MM-dd");
+    String today_date = simpledate.format(new Date());
     private Data data;
     private ArrayList<Integer> datalist = new ArrayList();
     private int numOfStep = 0;
     Calendar c = Calendar.getInstance();
-   Calendar calendar = Calendar.getInstance();
+    Calendar calendar = Calendar.getInstance();
     private String oneWeek;
     private String oneMonth;
+    private int week_count = 0;
+    private int month_count = 0;
     private DocumentReference ref = db.collection("Data").document(user_id).collection("data").document(today_date);
     private CollectionReference mcollectionReference = db.collection("Data").document(user_id).collection("data");
 
@@ -81,33 +88,30 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-       View view =  inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-       week = view.findViewById(R.id.step_num_week);
-       month = view.findViewById(R.id.step_num_month);
-       Data data1 = new Data("1/12/1232",12);
-       ref.set(data1);
+
         return view;
     }
-
 
 
     @Override
     public void onStart() {
         super.onStart();
-
         today = getView().findViewById(R.id.step_num_day);
 
+        //Log.d("current",user_id);
+        //get today's step count
         ref.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
 
-                if (error != null){
-                    Toast.makeText(getContext(),"Some error occured !", Toast.LENGTH_LONG).show();
+                if (error != null) {
+                    Toast.makeText(getContext(), "Some error occured !", Toast.LENGTH_LONG).show();
 
                 }
 
-                if( value.exists() && value != null){
+                if (value.exists() && value != null) {
                     int a = ((Long) value.get("num")).intValue();
                     today.setText(String.valueOf(a));
 
@@ -115,11 +119,11 @@ public class HomeFragment extends Fragment {
 
             }
         });
-        update();
 
+        //getDates(oneMonth);
+        //getDates(oneWeek);
+        deneme();
 
-
-        //getSteps();
     }
 
     @Override
@@ -129,52 +133,55 @@ public class HomeFragment extends Fragment {
     }
 
 
-private void update(){
-        week = getView().findViewById(R.id.step_num_week);
-    month= getView().findViewById(R.id.step_num_month);
-    today = getView().findViewById(R.id.step_num_day);
-    calendar.add(Calendar.DATE,-7); // 7 day before
-    oneWeek = calendar.getTime().toString();
-    calendar.add(Calendar.DATE,-30); // last 30 day
-    oneMonth = calendar.getTime().toString();
-    week.setText(String.valueOf(getData(oneWeek)));
-    month.setText(String.valueOf(getData(oneMonth)));
+    private List<String> getDates(Date day) {
+        List<String> dates = new ArrayList<String>();
+        calendar.setTime(day);
+        while (calendar.getTime().before(new Date())) {
+            Date result = calendar.getTime();
+            dates.add(simpledate.format(result));
+            calendar.add(Calendar.DATE, 1);
+        }
+        return dates;
 
+    }
+    private void deneme() {
+        calendar.add(Calendar.DATE, -7); // 7 day before
+        Date oneWeek = calendar.getTime();
+        calendar.add(Calendar.DATE, -30); // last 30 day
+        Date oneMonth = calendar.getTime();
+        getDates(oneWeek);
+        final List<String> weekly = getDates(oneWeek);
+        final List<String> montly = getDates(oneMonth);
 
-}
-
-
-private int getData(final String date){
         mcollectionReference.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
 
-                for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots){
+                for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
                     data = snapshot.toObject(Data.class);
-
-                    Log.d("home",data.getDate() + "  " +data.getNum());
-
-                    while (data.getDate() == date){
-                       numOfStep = numOfStep + data.getNum();
-                        //Log.d("home",data.getDate() + "  " +data.getNum());
+                    boolean checkDate = weekly.contains(data.getDate()) || montly.contains(data.getDate());
+                    if (weekly.contains(data.getDate())) {
+                        week_count = week_count + data.getNum();
+                    }
+                    if (montly.contains(data.getDate())) {
+                        month_count = month_count + data.getNum();
 
                     }
+
+                    //week.setText(String.valueOf(week_count));
+                   // month.setText(String.valueOf((month_count)));
                 }
 
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-
-                Log.e("Home Fragment",e.toString());
 
             }
         });
+    }
 
 
-        return numOfStep;
+
+
 
 }
 
 
-}
+

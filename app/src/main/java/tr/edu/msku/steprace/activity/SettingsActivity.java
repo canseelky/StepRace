@@ -124,8 +124,6 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        logOut =findViewById(R.id.logout);
-        logOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String email = profileEmail.getText().toString().trim();

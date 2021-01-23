@@ -3,25 +3,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".fragment.SearchFragment">
 
-    <SearchView
-        android:id="@+id/Search"
-        android:layout_width="320dp"
-        android:layout_height="44dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        <ListView
-            android:layout_width="1dp"
-            android:layout_height="77dp">
+        <EditText
+            android:id="@+id/search_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="enter user name or email adress"
+            android:inputType="textPersonName" />
 
-        </ListView>
+        <Button
+            android:id="@+id/search_b"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Search" />
 
-    </SearchView>
+    </LinearLayout>
 
-    <Button
-        android:id="@+id/search_b"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Search" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview_result"
+        android:layout_width="match_parent"
+        android:layout_height="638dp" />
+
 
 </LinearLayout>

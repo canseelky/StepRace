@@ -176,6 +176,7 @@ public class NotificationFragment extends Fragment {
             }
         });
 
+
         // Set the adapter
         UserStore userStore = new UserStore();
         userStore.setUsers(users);

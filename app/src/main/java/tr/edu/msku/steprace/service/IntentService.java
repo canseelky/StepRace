@@ -2,45 +2,135 @@ package tr.edu.msku.steprace.service;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
-
+import android.hardware.SensorManager;
+import android.util.Log;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import tr.edu.msku.steprace.model.Data;
 
 public class IntentService extends android.app.IntentService implements SensorEventListener {
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private String user_id = FirebaseAuth.getInstance().getCurrentUser().getUid().toString();
+    private SensorManager manager;
+    private SensorManager mSensorManager;
+    private Sensor mStepDetectorSensor;
 
-    private int numOfSteps;
-    private String userid;
-    private SharedPreferences mPref;
-    private SharedPreferences.Editor editor;
-    public IntentService(String name) {
+    private String TAG = getClass().getSimpleName();
+    private  SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    private String date = sdf.format(new Date()).toString();
+    private DocumentReference ref = db.collection("Data").document(user_id).collection("data").document(date);
+
+
+
+
+    public IntentService() {
         super("Intent-Service");
     }
 
     @Override
-    public void onCreate() {
-        super.onCreate();
-        mPref = getSharedPreferences("numOfStep", Context.MODE_PRIVATE);
+    protected void onHandleIntent(@Nullable Intent intent) {
     }
 
     @Override
-    protected void onHandleIntent(@Nullable Intent intent) {
-        numOfSteps = 0 ;
-        userid = intent.getStringExtra("userid");
-
+    public int onStartCommand(@Nullable Intent intent, int flags, int startId) {
+            mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+            mStepDetectorSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+            mSensorManager.registerListener(this, mStepDetectorSensor, SensorManager.SENSOR_DELAY_NORMAL);
+            return START_STICKY;
     }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        editor = mPref.edit();
-        editor.putInt("numOfSteps",numOfSteps++);
 
+        Log.d("ıntent","sensorchanged");
+        databaseUpdate();
     }
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+    }
+
+
+    private void databaseUpdate(){
+
+        ref.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                //String n  = String.valueOf(documentSnapshot.get("num"));
+
+                //int i= Integer.parseInt(n);
+
+                //Integer step = documentSnapshot.getString("num");
+                //Log.d(TAG ,String.valueOf(data.getNum()));
+                if((documentSnapshot.get("num") == null )){
+                    Data data = new Data(date,1);
+                    documentSnapshot.toObject(Data.class);
+
+                    data.setDate(date);
+                    Log.d(TAG ,String.valueOf(data.getNum()));
+                    data.setNum(1);
+                    ref.set(data).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG,"OK");
+
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d(TAG,"Something went wrong.." + e.toString());
+                        }
+                    });
+
+                }
+                String n  = String.valueOf(documentSnapshot.get("num"));
+
+
+                if (documentSnapshot.exists() && documentSnapshot != null && documentSnapshot.get("num") != null){
+                    //data.setDate(date);
+                    int i= Integer.parseInt(n);
+                    Data data = new Data(date,i);
+                    documentSnapshot.toObject(Data.class);
+                        Log.d(TAG ,String.valueOf(data.getNum()));
+                    int mnumber = data.getNum()  + 1  ;
+                    //Log.d(TAG ,String.valueOf(mnumber));
+                    data.setNum(mnumber);
+                    ref.set(data).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+
+                            Log.d(TAG,"OK");
+
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d(TAG,  "Something went wrong.." + e.toString());
+                        }
+                    });
+                }
+
+            }
+
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("TAG","Something went wrong.." + e.toString());
+            }
+        });
 
     }
 }
