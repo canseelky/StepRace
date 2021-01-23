@@ -69,14 +69,16 @@ public class IntentService extends android.app.IntentService implements SensorEv
 
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                String n  = String.valueOf(documentSnapshot.get("num"));
-                int i= Integer.parseInt(n);
-                 Data data = new Data(date,i);
+                //String n  = String.valueOf(documentSnapshot.get("num"));
 
-                documentSnapshot.toObject(Data.class);
+                //int i= Integer.parseInt(n);
+
                 //Integer step = documentSnapshot.getString("num");
-                Log.d(TAG ,String.valueOf(data.getNum()));
-                if(data.getNum() == 0 ){
+                //Log.d(TAG ,String.valueOf(data.getNum()));
+                if((documentSnapshot.get("num") == null )){
+                    Data data = new Data(date,1);
+                    documentSnapshot.toObject(Data.class);
+
                     data.setDate(date);
                     Log.d(TAG ,String.valueOf(data.getNum()));
                     data.setNum(1);
@@ -94,9 +96,14 @@ public class IntentService extends android.app.IntentService implements SensorEv
                     });
 
                 }
+                String n  = String.valueOf(documentSnapshot.get("num"));
 
-                if (documentSnapshot.exists() && documentSnapshot != null && data.getNum() > 0){
+
+                if (documentSnapshot.exists() && documentSnapshot != null && documentSnapshot.get("num") != null){
                     //data.setDate(date);
+                    int i= Integer.parseInt(n);
+                    Data data = new Data(date,i);
+                    documentSnapshot.toObject(Data.class);
                         Log.d(TAG ,String.valueOf(data.getNum()));
                     int mnumber = data.getNum()  + 1  ;
                     //Log.d(TAG ,String.valueOf(mnumber));
