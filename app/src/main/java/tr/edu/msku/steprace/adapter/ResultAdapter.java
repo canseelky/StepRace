@@ -1,5 +1,7 @@
 package tr.edu.msku.steprace.adapter;
 
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import tr.edu.msku.steprace.MainActivity;
 import tr.edu.msku.steprace.R;
-import tr.edu.msku.steprace.activity.SendFriendRequest;
 import tr.edu.msku.steprace.model.User;
 
 
@@ -62,10 +64,19 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ViewHolder
             holder.surname.setText(user.getSurname());
             holder.city.setText(user.getCity());
             holder.imageView.setImageResource(R.drawable.user);
+            String id = user.getUser_id();
+            Log.d("main",id);
             holder.addButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    museradd.onUserAdd(user.getUser_id());
+                    //museradd.onUserAdd(user.getUser_id());
+                    Intent intent = new Intent(v.getContext(), MainActivity.class);
+                    intent.putExtra("userid",user.getUser_id());
+                    String id = user.getUser_id();
+                    Log.d("main",id);
+                    v.getContext().startActivity(intent);
+
+
                 }
             });
 
