@@ -36,6 +36,7 @@ public class IntentService extends android.app.IntentService implements SensorEv
 
     public IntentService() {
         super("Intent-Service");
+        Log.d("ıntent","ıntent");
     }
 
     @Override

@@ -183,7 +183,6 @@ public class NotificationFragment extends Fragment {
         recyclerView = getView().findViewById(R.id.recyclerview_notification);
         layoutManager = new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false);
         NotificationsAdaptor adapter = new NotificationsAdaptor(userStore.getUsers());
-        //recyclerView.setAdapter(friendAdapter);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 

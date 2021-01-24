@@ -1,7 +1,6 @@
 package tr.edu.msku.steprace.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,23 +10,29 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import tr.edu.msku.steprace.MainActivity;
 import tr.edu.msku.steprace.R;
-import tr.edu.msku.steprace.model.Friend;
+import tr.edu.msku.steprace.model.User;
 
 
 public class FriendsAdapter extends RecyclerView.Adapter <FriendsAdapter.ViewHolder2> {
+    FirebaseStorage storage = FirebaseStorage.getInstance();
 
     private static final int LIST = 1;
     private static final int HEADER = 0;
-    List<Friend> friends = new ArrayList<>();
+    List<User> friends = new ArrayList<>();
     private View view;
     private ViewHolder2 mViewholder;
     private Context mcontext;
-    public FriendsAdapter(List<Friend> friends) {
+    StorageReference storageRef = storage.getReference();
+
+    public FriendsAdapter(List<User> friends) {
         this.friends = friends;
     }
 
@@ -56,12 +61,24 @@ public class FriendsAdapter extends RecyclerView.Adapter <FriendsAdapter.ViewHol
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder2 holder, int position) {
-        Friend friend;
+        User friend;
         if ( holder.view_type == LIST){
             friend = friends.get(position-1);
             holder.ad.setText(friend.getName());
-            holder.soyad.setText(friend.getData());
-            holder.profilpp.setImageResource(R.drawable.user);
+            holder.soyad.setText(friend.getSurname());
+
+
+            //holder.profile_photo.setImageResource(R.drawable.user);
+
+            if(friend.getImage() == null){
+                holder.profilpp.setImageResource(R.drawable.user);
+
+
+            }
+            else if (friend.getImage() != null ){
+                //Picasso.get().load(friend.getImage().toString().into(holder.profilpp);
+
+            }
         }
 
         else if (holder.view_type == HEADER){

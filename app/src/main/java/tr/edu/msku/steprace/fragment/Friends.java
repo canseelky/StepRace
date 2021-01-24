@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +19,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-import tr.edu.msku.steprace.MainActivity;
 import tr.edu.msku.steprace.adapter.FriendsAdapter;
 import tr.edu.msku.steprace.R;
-import tr.edu.msku.steprace.model.Friend;
 import tr.edu.msku.steprace.model.User;
 
 
@@ -31,11 +29,11 @@ public class Friends extends Fragment {
     private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
     private String user_id = mFirebaseAuth.getCurrentUser().getUid();
     private ArrayList<String> friendsid = new ArrayList<>();
-    private List<Friend> friends = new ArrayList<>();
+    private List<User> friends = new ArrayList<>();
     private  LinearLayoutManager layoutManager;
     private FriendsAdapter friendsAdapter;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private Friend friend;
+    private User friend;
     private CollectionReference mUserReference= db.collection("Users").document(
             user_id).collection("friend"); private CollectionReference mCollectionRef = db.collection("Friends").document(
             user_id).collection("friend");
@@ -84,7 +82,7 @@ public class Friends extends Fragment {
                                     if ((list.get(i).trim().equals(id))){
                                         //Log.d("friends",friends.toString());
                                         //Log.d("friends","same");
-                                        friends.add(new Friend(user1.getName(),user1.getSurname()));
+                                        friends.add(new User(user1.getName(),user1.getSurname()));
                                         //Log.d("friends",friends.get(0).getName());
                                     }
                                     else {
@@ -130,7 +128,7 @@ public class Friends extends Fragment {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
-                    friend = snapshot.toObject(Friend.class);
+                    friend = snapshot.toObject(User.class);
                     //Log.d("Friend id", snapshot.getId());
                     friendsid.add(snapshot.getId());
 
