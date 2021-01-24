@@ -174,8 +174,9 @@ Log.d("sss",weekly.toString());
                     month_count = month_count + data.getNum();
                     week = getView().findViewById(R.id.step_num_week);
 
-                    week.setText(String.valueOf(week_count));
+
                     month = getView().findViewById(R.id.step_num_month);
+                    week.setText(String.valueOf(week_count));
                      month.setText(String.valueOf((month_count)));
                 }
 
