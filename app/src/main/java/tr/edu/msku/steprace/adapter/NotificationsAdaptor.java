@@ -8,6 +8,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.PicassoProvider;
+
 import java.util.ArrayList;
 import java.util.List;
 import tr.edu.msku.steprace.R;
@@ -36,6 +40,8 @@ public class NotificationsAdaptor extends RecyclerView.Adapter<NotificationsAdap
         holder.surname.setText ( users.get(position).getSurname());
         holder.city.setText ( users.get(position).getCity());
         holder.profile_photo.setImageResource(R.drawable.user);
+        Picasso.get().load("https://firebasestorage.googleapis.com/v0/b/steprace-c2005.appspot.com/o/2V3SuNGoRWO5Spz2CmYxhYUvvSp2?alt=media&token=ec33faf6-b3a3-482d-a1ce-1631edc9a46a").into(holder.profile_photo);
+
 
     }
 
@@ -61,6 +67,7 @@ public class NotificationsAdaptor extends RecyclerView.Adapter<NotificationsAdap
             surname= (TextView) itemView.findViewById(R.id.surname);
             city= (TextView) itemView.findViewById(R.id.city);
             profile_photo =(ImageView)itemView.findViewById(R.id.image_search);
+
         }
     }
 }

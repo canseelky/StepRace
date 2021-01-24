@@ -81,7 +81,8 @@ public class HomeFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
 
-        }
+        };
+        getSteps();
     }
 
     @Override
@@ -89,6 +90,7 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+
 
 
         return view;
@@ -122,7 +124,7 @@ public class HomeFragment extends Fragment {
 
         //getDates(oneMonth);
         //getDates(oneWeek);
-        deneme();
+
 
     }
 
@@ -144,7 +146,7 @@ public class HomeFragment extends Fragment {
         return dates;
 
     }
-    private void deneme() {
+    private void getSteps() {
         calendar.add(Calendar.DATE, -7); // 7 day before
         Date oneWeek = calendar.getTime();
         calendar.add(Calendar.DATE, -30); // last 30 day
@@ -152,7 +154,7 @@ public class HomeFragment extends Fragment {
         getDates(oneWeek);
         final List<String> weekly = getDates(oneWeek);
         final List<String> montly = getDates(oneMonth);
-
+Log.d("sss",weekly.toString());
         mcollectionReference.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -162,14 +164,19 @@ public class HomeFragment extends Fragment {
                     boolean checkDate = weekly.contains(data.getDate()) || montly.contains(data.getDate());
                     if (weekly.contains(data.getDate())) {
                         week_count = week_count + data.getNum();
+                        Log.d("sss",String.valueOf(week_count));
                     }
                     if (montly.contains(data.getDate())) {
                         month_count = month_count + data.getNum();
 
                     }
+                    Log.d("sss",String.valueOf(week_count));
+                    month_count = month_count + data.getNum();
+                    week = getView().findViewById(R.id.step_num_week);
 
-                    //week.setText(String.valueOf(week_count));
-                   // month.setText(String.valueOf((month_count)));
+                    week.setText(String.valueOf(week_count));
+                    month = getView().findViewById(R.id.step_num_month);
+                     month.setText(String.valueOf((month_count)));
                 }
 
 
