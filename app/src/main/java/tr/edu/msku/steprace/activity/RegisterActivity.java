@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,7 +25,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import tr.edu.msku.steprace.MainActivity;
 import tr.edu.msku.steprace.R;
+import tr.edu.msku.steprace.fragment.HomeFragment;
 import tr.edu.msku.steprace.model.User;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -111,9 +114,11 @@ public class RegisterActivity extends AppCompatActivity {
                             if(task.isSuccessful())//If account creation successful print message and send user to Login Activity
                             {
 
-                                final String user_id = mAuth.getUid().toString().trim();
+                                String user_id = mAuth.getUid();
                                 DocumentReference ref = db.collection("Users").document(user_id);
                                 User user = new User(user_name,UserSurname,user_id,city_register,email,dateOFbird_register);
+
+
                                 ref.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
