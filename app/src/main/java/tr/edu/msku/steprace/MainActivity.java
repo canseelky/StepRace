@@ -19,12 +19,18 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import tr.edu.msku.steprace.activity.LoginActivity;
+import tr.edu.msku.steprace.activity.RegisterActivity;
 import tr.edu.msku.steprace.activity.SettingsActivity;
 import tr.edu.msku.steprace.adapter.onUserAdded;
 import tr.edu.msku.steprace.fragment.Friends;
@@ -46,6 +52,9 @@ public class MainActivity extends AppCompatActivity {
     private String user_req_id;
 
 
+
+
+
     @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,8 +71,6 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
 
         }
-
-
 
         changeFragment(new HomeFragment());
 
@@ -104,6 +111,11 @@ public class MainActivity extends AppCompatActivity {
     }
     @Override
     protected void onStart(){
+       String user_id = FirebaseAuth.getInstance().getCurrentUser().getUid().toString();
+        DocumentReference mUser = db.collection("Users").document(user_id);
+
+
+
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -133,9 +145,24 @@ public class MainActivity extends AppCompatActivity {
 
         SendRequest(user_req_id);
 }
+        Intent accept = getIntent();
+         String accept_id = accept.getStringExtra("acceptid");
+
+        if (accept_id != null){
+
+            AcceptUser(accept_id);
+        }
+
+        Intent reject = getIntent();
+        String reject_user_id = reject.getStringExtra("decline");
+
+        if(reject_user_id != null){
+
+            rejectUser(reject_user_id);
+        }
 
 
-        //Log.d("main",user_req_id);
+
         super.onStart();
     }
 
@@ -167,8 +194,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-
 public void SendRequest(String id){
    DocumentReference Request_ref = db.collection("Notifications").document(id).collection("requests").document(mFirebaseAuth.getUid().toString());
    User user_send = new User();
@@ -190,6 +215,42 @@ public void SendRequest(String id){
 
 
 }
+
+public void AcceptUser(String id){
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    DocumentReference docRef = db.collection("Friend").document(FirebaseAuth.getInstance().getCurrentUser().getUid().toString()).collection("friend").document(id);
+    Map<String,Object> edited = new HashMap<>();
+    edited.put("id",id);
+
+    docRef.set(edited).addOnSuccessListener(new OnSuccessListener<Void>() {
+        @Override
+        public void onSuccess(Void aVoid) {
+            Log.d("Main Activity","friendship accepted!");
+            Toast.makeText(MainActivity.this,"User accepted successfully!",Toast.LENGTH_LONG).show();
+
+
+        }
+    }).addOnFailureListener(new OnFailureListener() {
+        @Override
+        public void onFailure(@NonNull Exception e) {
+            Log.e("Main Activity",e.toString());
+
+        }
+    });
+
+}
+
+    public void rejectUser(String id){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference docRef = db.collection("Notifications").document(FirebaseAuth.getInstance().getCurrentUser().getUid().toString()).collection("request").document(id);
+
+        Map<String,Object> updates = new HashMap<>();
+        updates.put(null, FieldValue.delete());
+        Toast.makeText(MainActivity.this,"User  rejected !",Toast.LENGTH_LONG).show();
+
+    }
+
+
 
 
 }

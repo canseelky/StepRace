@@ -10,13 +10,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 import tr.edu.msku.steprace.R;
 import tr.edu.msku.steprace.model.User;
 
@@ -31,6 +36,10 @@ public class FriendsAdapter extends RecyclerView.Adapter <FriendsAdapter.ViewHol
     private ViewHolder2 mViewholder;
     private Context mcontext;
     StorageReference storageRef = storage.getReference();
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private String user_id = FirebaseAuth.getInstance().getCurrentUser().getUid().toString();
+
+
 
     public FriendsAdapter(List<User> friends) {
         this.friends = friends;
@@ -52,33 +61,46 @@ public class FriendsAdapter extends RecyclerView.Adapter <FriendsAdapter.ViewHol
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.friend_item,parent,false);
             mViewholder = new ViewHolder2(view,viewType);
             return mViewholder;
-
-
         }
 
         return null;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder2 holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder2 holder, int position) {
         User friend;
         if ( holder.view_type == LIST){
             friend = friends.get(position-1);
             holder.ad.setText(friend.getName());
-            holder.soyad.setText(friend.getSurname());
-
+            holder.soyad.setText(String.valueOf(friend.getMonth_data()));
 
             //holder.profile_photo.setImageResource(R.drawable.user);
+            DocumentReference ref = db.collection("Image").document(user_id);
+            ref.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
 
-            if(friend.getImage() == null){
-                holder.profilpp.setImageResource(R.drawable.user);
+                    String image = documentSnapshot.get("image").toString();
+
+                    if (documentSnapshot.exists()){
+
+                        Picasso.get()
+                                .load(image)
+                                .transform(new CropCircleTransformation())
+                                .into(holder.profilpp);
+
+                }
+                    else{
+
+                        holder.profilpp.setImageResource(R.drawable.user);
+                    }
+            };
 
 
-            }
-            else if (friend.getImage() != null ){
-                //Picasso.get().load(friend.getImage().toString().into(holder.profilpp);
+          });
 
-            }
+
+
         }
 
         else if (holder.view_type == HEADER){

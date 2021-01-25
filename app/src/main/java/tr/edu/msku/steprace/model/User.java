@@ -1,18 +1,19 @@
 package tr.edu.msku.steprace.model;
 
+import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class User {
+public class User implements Serializable {
     private String name;
     private String surname;
     private String city;
     private String email;
     private String dateOfBirth;
-    private URL image;
     private String user_id;
+    private int month_data;
 
 
     public User() {
@@ -21,8 +22,6 @@ public class User {
     public User(String name, String surname) {
         this.name = name;
         this.surname = surname;
-
-
     }
 
     public User(String name, String surname,String city) {
@@ -32,11 +31,17 @@ public class User {
 
     }
 
-    public User(String name, String surname,String city,String user_id) {
+    public User(String name, String surname, String city, String user_id) {
         this.name = name;
-        this.surname = surname;
         this.city =city;
-        this.user_id =user_id;
+        this.surname = surname;
+        this.user_id = user_id;
+    }
+
+    public User(String name, int month_data) {
+        this.name = name;
+        this.month_data = month_data;
+
 
     }
 
@@ -80,13 +85,7 @@ public class User {
     public void setSurname(String surname) {
         this.surname = surname;
     }
-    public String getCity() {
-        return city;
-    }
 
-    public void setCity(String name) {
-        this.city = city;
-    }
 
     public String getEmail() {
         return email;
@@ -104,21 +103,22 @@ public class User {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public URL getImage() {
-        return image;
+
+
+    public int getMonth_data() {
+        return month_data;
     }
 
-    public void setImage(URL image) {
-        this.image = image;
+    public void setMonth_data(int month_data) {
+        this.month_data = month_data;
     }
 
+    public String getCity() {
+        return city;
+    }
 
-    @Override
-    public String toString() {
-        return "Users{" +
-                "name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                '}';
+    public void setCity(String city) {
+        this.city = city;
     }
 }
 

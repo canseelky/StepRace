@@ -35,7 +35,8 @@ public class Friends extends Fragment {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private User friend;
     private CollectionReference mUserReference= db.collection("Users").document(
-            user_id).collection("friend"); private CollectionReference mCollectionRef = db.collection("Friends").document(
+            user_id).collection("friend");
+    private CollectionReference mCollectionRef = db.collection("Friends").document(
             user_id).collection("friend");
    private CollectionReference mUser = db.collection("Users");
     private CollectionReference mUserdata = db.collection("Users");
@@ -64,12 +65,12 @@ public class Friends extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_friends, container, false);
-        Query query = mUser.orderBy("name").limit(3);
+
         getFriendsId(new mCallback() {
             //get list
             @Override
             public void onCallback(final ArrayList<String> list) {
-                mUser.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                mUser.orderBy("month_data", Query.Direction.DESCENDING).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     User user1;
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -82,7 +83,7 @@ public class Friends extends Fragment {
                                     if ((list.get(i).trim().equals(id))){
                                         //Log.d("friends",friends.toString());
                                         //Log.d("friends","same");
-                                        friends.add(new User(user1.getName(),user1.getSurname()));
+                                        friends.add(new User(user1.getName(),user1.getMonth_data()));
                                         //Log.d("friends",friends.get(0).getName());
                                     }
                                     else {

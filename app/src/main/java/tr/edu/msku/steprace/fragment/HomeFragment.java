@@ -38,6 +38,7 @@ import java.util.*;
 import tr.edu.msku.steprace.MainActivity;
 import tr.edu.msku.steprace.R;
 import tr.edu.msku.steprace.model.Data;
+import tr.edu.msku.steprace.model.User;
 
 
 @RequiresApi(api = Build.VERSION_CODES.O)
@@ -52,11 +53,9 @@ public class HomeFragment extends Fragment {
     String today_date = simpledate.format(new Date());
     private Data data;
     private ArrayList<Integer> datalist = new ArrayList();
-    private int numOfStep = 0;
-    Calendar c = Calendar.getInstance();
     Calendar calendar = Calendar.getInstance();
-    private String oneWeek;
-    private String oneMonth;
+    DocumentReference mUser = db.collection("Users").document(user_id);
+    private User currentUser;
     private int week_count = 0;
     private int month_count = 0;
     private DocumentReference ref = db.collection("Data").document(user_id).collection("data").document(today_date);
@@ -122,10 +121,6 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        //getDates(oneMonth);
-        //getDates(oneWeek);
-
-
     }
 
     @Override
@@ -161,7 +156,6 @@ Log.d("sss",weekly.toString());
 
                 for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
                     data = snapshot.toObject(Data.class);
-                    boolean checkDate = weekly.contains(data.getDate()) || montly.contains(data.getDate());
                     if (weekly.contains(data.getDate())) {
                         week_count = week_count + data.getNum();
                         Log.d("sss",String.valueOf(week_count));
@@ -173,21 +167,56 @@ Log.d("sss",weekly.toString());
                     Log.d("sss",String.valueOf(week_count));
                     month_count = month_count + data.getNum();
                     week = getView().findViewById(R.id.step_num_week);
-
-
                     month = getView().findViewById(R.id.step_num_month);
                     week.setText(String.valueOf(week_count));
                      month.setText(String.valueOf((month_count)));
-                }
 
+
+                    mUser.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        User current_user = new User();
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            if(documentSnapshot.exists()){
+                                User user = documentSnapshot.toObject(User.class);
+                                Log.d("homee",documentSnapshot.getString("city").toString());
+                                current_user.setCity(user.getCity());
+                                current_user.setName(user.getName());
+                                current_user.setUser_id(user.getUser_id());
+                                current_user.setSurname(user.getSurname());
+                                current_user.setDateOfBirth(user.getDateOfBirth());
+                                current_user.setEmail(user.getEmail());
+                                current_user.setMonth_data(0);
+
+                                if (month_count != 0){
+                                    current_user.setMonth_data(month_count);
+                                    mUser.set(current_user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Log.d("HomeFragment",String.valueOf(month_count));
+
+
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.d("HomeFragment","error" + e.toString()) ;
+
+                                        }
+                                    });
+
+
+                                }
+
+                            }
+
+                        }
+                    });
+
+                }
 
             }
         });
     }
-
-
-
-
 
 }
 

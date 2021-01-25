@@ -13,9 +13,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 import tr.edu.msku.steprace.MainActivity;
 import tr.edu.msku.steprace.R;
 import tr.edu.msku.steprace.model.User;
@@ -29,6 +38,9 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ViewHolder
     private Button button_send;
     private View view;
     private onUserAdded museradd;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private String user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
 
     public ResultAdapter(List<User> users) {
         this.users = users;
@@ -56,7 +68,7 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
 
         if (holder.view_type == LIST){
             final User user = users.get(position -1);
@@ -65,7 +77,30 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ViewHolder
             holder.city.setText(user.getCity());
             holder.imageView.setImageResource(R.drawable.user);
             String id = user.getUser_id();
-            Log.d("main",id);
+            DocumentReference ref = db.collection("Image").document(user_id);
+            ref.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    if (documentSnapshot.exists()){
+                        String image = documentSnapshot.getString("image");
+                        Picasso.get().load(image).transform(new CropCircleTransformation()).into(holder.imageView);
+                    }
+                    else {
+                        holder.imageView.setImageResource(R.drawable.user);
+                        //Picasso.get().load("https://firebasestorage.googleapis.com/v0/b/steprace-c2005.appspot.com/o/135688?alt=media&token=d7c9d113-8a05-4357-a591-96b02da22bbf").into(holder.imageView);
+                        Log.d("resultadapter11",user_id);
+
+
+                    }
+                };
+
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d("resultadapter11",e.toString());
+
+                }
+            });
             holder.addButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -73,9 +108,8 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ViewHolder
                     Intent intent = new Intent(v.getContext(), MainActivity.class);
                     intent.putExtra("userid",user.getUser_id());
                     String id = user.getUser_id();
-                    Log.d("main",id);
+                    Log.d("resultadapterid",id);
                     v.getContext().startActivity(intent);
-
 
                 }
             });
@@ -89,7 +123,6 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ViewHolder
                 public void onClick(View v) {
 
                     //TODO back to search fragment
-
                 }
             });
 
